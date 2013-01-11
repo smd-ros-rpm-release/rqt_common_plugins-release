@@ -1,14 +1,14 @@
 <package>
   <name>rqt_graph</name>
-  <version>0.2.7</version>
+  <version>0.2.8</version>
   <description>rqt_graph provides a GUI plugin for visualizing the ROS computation graph.</description>
   <maintainer email="ablasdel@willowgarage.com">Aaron Blasdel</maintainer>
 
   <license>BSD</license>
 
   <url type="website">http://ros.org/wiki/rqt_graph</url>
-  <url type="repository">https://github.com/ros-visualization/rqt</url>
-  <url type="bugtracker">https://github.com/ros-visualization/rqt/issues</url>
+  <url type="repository">https://github.com/ros-visualization/rqt_common_plugins</url>
+  <url type="bugtracker">https://github.com/ros-visualization/rqt_common_plugins/issues</url>
 
   <author>Dirk Thomas</author>
 
@@ -22,13 +22,7 @@
   <run_depend>rosservice</run_depend>
   <run_depend>rostopic</run_depend>
   <run_depend>rqt_gui</run_depend>
-  <test_depend>qt_dotgraph</test_depend>
-  <test_depend>rosgraph</test_depend>
-  <test_depend>roslib</test_depend>
-  <test_depend>rosnode</test_depend>
-  <test_depend>rosservice</test_depend>
-  <test_depend>rostopic</test_depend>
-  <test_depend>rqt_gui</test_depend>
+  <run_depend>rqt_gui_py</run_depend>
 
   <export>
     <rqt_gui plugin="${prefix}/plugin.xml"/>
