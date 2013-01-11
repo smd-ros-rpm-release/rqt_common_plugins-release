@@ -1,14 +1,14 @@
 <package>
   <name>rqt_py_console</name>
-  <version>0.2.7</version>
+  <version>0.2.8</version>
   <description>rqt_py_console is a Python GUI plugin providing an interactive Python console.</description>
   <maintainer email="scholz@sim.tu-darmstadt.de">Dorian Scholz</maintainer>
 
   <license>BSD</license>
 
   <url type="website">http://ros.org/wiki/rqt_py_console</url>
-  <url type="repository">https://github.com/ros-visualization/rqt</url>
-  <url type="bugtracker">https://github.com/ros-visualization/rqt/issues</url>
+  <url type="repository">https://github.com/ros-visualization/rqt_common_plugins</url>
+  <url type="bugtracker">https://github.com/ros-visualization/rqt_common_plugins/issues</url>
 
   <author>Dorian Scholz</author>
 
