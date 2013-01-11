@@ -1,14 +1,14 @@
 <package>
   <name>rqt_publisher</name>
-  <version>0.2.7</version>
+  <version>0.2.8</version>
   <description>rqt_publisher provides a GUI plugin for publishing arbitrary messages with fixed or computed field values.</description>
   <maintainer email="scholz@sim.tu-darmstadt.de">Dorian Scholz</maintainer>
 
   <license>BSD</license>
 
   <url type="website">http://ros.org/wiki/rqt_publisher</url>
-  <url type="repository">https://github.com/ros-visualization/rqt</url>
-  <url type="bugtracker">https://github.com/ros-visualization/rqt/issues</url>
+  <url type="repository">https://github.com/ros-visualization/rqt_common_plugins</url>
+  <url type="bugtracker">https://github.com/ros-visualization/rqt_common_plugins/issues</url>
 
   <author>Dorian Scholz</author>
 
