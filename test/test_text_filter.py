@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 # Software License Agreement (BSD License)
 #
 # Copyright (c) 2012, Willow Garage, Inc.
@@ -36,33 +34,34 @@
 
 import unittest
 
-from rqt_reconfigure.treenode_qstditem import TreenodeQstdItem
+from python_qt_binding.QtCore import Qt, QRegExp
+from rqt_reconfigure.text_filter import TextFilter
 
-class TestTreenodeQstdItem(unittest.TestCase):
-    """
-    :author: Isaac Saito
-    """
 
-    _nodename = '/base_hokuyo_node'
-               
+class MyTest(unittest.TestCase):
+    _query_text = 'filter'
+    _filtered_text = 'filtered_text'
+
     def setUp(self):
         unittest.TestCase.setUp(self)
-        #self._item = TreenodeQstdItem(self._nodename, 0) # For unknown reason this
-                                                       # stops operation.
-        self._item = TreenodeQstdItem(self._nodename)
- 
+
+        syntax_nr = QRegExp.RegExp
+        syntax = QRegExp.PatternSyntax(syntax_nr)
+        self._regExp = QRegExp(self._query_text, Qt.CaseInsensitive, syntax)
+
+        self._filter = TextFilter(self._regExp)
+        self._filter.set_text(self._query_text)
+
     def tearDown(self):
         unittest.TestCase.tearDown(self)
-        del self._item
-                
-    def test_get_node_name(self):
-        self.assertEqual(self._item.get_node_name(),
-                         self._nodename)
 
-    def test_get_node_name(self):
-        self.assertEqual(self._item.get_widget().show())
-
+    def test_test_message(self):
+        """Testing test_message method."""
+        result_regex = self._filter.test_message(self._filtered_text)
+        print 'result_regex={}'.format(result_regex)
+        self.assertEqual(result_regex,
+                         True  # Both _query_text & filtered_text overlaps.
+                         )
 
 if __name__ == '__main__':
     unittest.main()
-    
