@@ -32,33 +32,46 @@
 #
 # Author: Isaac Saito
 
-from rqt_gui_py.plugin import Plugin
+from __future__ import division
+
+from python_qt_binding.QtCore import Qt
+from python_qt_binding.QtGui import QStandardItemModel
 import rospy
 
-from .param_widget import ParamWidget
 
+class TreenodeItemModel(QStandardItemModel):
+    """
+    This class is made only for this purpose; to hold QStandardItem instances
+    associated with QModelIndex. QStandardItemModel has methods to return it
+    by index called itemFromIndex, but in some cases the method doesn't work
+    for unknown reasons. Ref. question asked:
+    http://stackoverflow.com/questions/14646979/strange-index-values-from-qstandarditemmodel
 
-class ParamPlugin(Plugin):
+    :author: Isaac Saito
+    """
 
-    def __init__(self, context):
+    def __init__(self, parent=None):
+        super(TreenodeItemModel, self).__init__(parent)
+        self._parent = parent
+
+        self._indexes = {}  # { str : QPersistentModelIndex }
+
+    def get_index_from_grn(self, grn):
         """
-        :type context: qt_gui.PluginContext
+
+        :type grn: str
+        :rtype: QPersistentModelIndex. None if the corresponding item isn't
+                found.
         """
+        rospy.logdebug('get_index_from_grn all item={}'.format(
+                                                               self._indexes))
+        return self._indexes.get(grn)
 
-        super(ParamPlugin, self).__init__(context)
-        self.setObjectName('Dynamic Reconfigure')
-
-        self._widget = ParamWidget(context)
-        if context.serial_number() > 1:
-            self._widget.setWindowTitle(self._widget.windowTitle() +
-                                        (' (%d)' % context.serial_number()))
-        context.add_widget(self._widget)
-
-    def shutdown_plugin(self):
-        self._widget.shutdown()
-
-    def save_settings(self, plugin_settings, instance_settings):
-        self._widget.save_settings(plugin_settings, instance_settings)
-
-    def restore_settings(self, plugin_settings, instance_settings):
-        self._widget.restore_settings(plugin_settings, instance_settings)
+    def set_item_from_index(self, grn, qpindex):
+        """
+        :type grn: str
+        :type qpindex: QPersistentModelIndex
+        """
+        rospy.logdebug('set_item_from_index grn={} qpindex={}'.format(
+                                                               grn, qpindex))
+        self._indexes[grn] = qpindex
