@@ -31,7 +31,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 from python_qt_binding.QtCore import Qt, qWarning
-from python_qt_binding.QtGui import QBrush, QSortFilterProxyModel
+from python_qt_binding.QtGui import QBrush, QColor, QSortFilterProxyModel
 
 from .filters.filter_collection import FilterCollection
 
@@ -49,6 +49,8 @@ class MessageProxyModel(QSortFilterProxyModel):
 
         self._exclude_filters = FilterCollection(self)
         self._highlight_filters = FilterCollection(self)
+        self.setFilterRole(Qt.UserRole)
+        self.setSortRole(Qt.UserRole)
 
     # BEGIN Required implementations of QSortFilterProxyModel functions
     def filterAcceptsRow(self, sourcerow, sourceparent):
@@ -59,14 +61,18 @@ class MessageProxyModel(QSortFilterProxyModel):
         """
         rowdata = []
         for index in range(self.sourceModel().columnCount()):
-            rowdata.append(self.sourceModel().index(sourcerow, index, sourceparent).data())
+            rowdata.append(self.sourceModel().index(sourcerow, index, sourceparent).data(Qt.UserRole))
 
         if self._exclude_filters.test_message_array(rowdata):
             return False
         if self._highlight_filters.count_enabled_filters() == 0:
             return True
         match = self._highlight_filters.test_message_array(rowdata)
-
+        if match:
+            color = 'black'
+        else:
+            color = 'gray'
+        self.sourceModel()._messages.get_message_list()[sourcerow].set_color(color)
         return not self._show_highlighted_only or match
 
     def data(self, index, role=None):
@@ -90,12 +96,16 @@ class MessageProxyModel(QSortFilterProxyModel):
                         else:
                             raise KeyError('Unknown severity type: %s' % data)
                     if self._highlight_filters.count_enabled_filters() > 0:
-                        if not self._highlight_filters.test_message(messagelist[index.row()]):
-                            return QBrush(Qt.gray)
+                        return QBrush(QColor(messagelist[index.row()].get_color()))
+                    else:
+                        return QBrush(Qt.black)
         return self.sourceModel().data(index, role)
     # END Required implementations of QSortFilterProxyModel functions
 
     def handle_filters_changed(self):
+        """
+        Invalidates filters and triggers refiltering
+        """
         self.invalidate()
 
     def add_exclude_filter(self, newfilter):
