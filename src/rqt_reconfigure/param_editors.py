@@ -35,14 +35,11 @@
 import math
 import os
 
-from dynamic_reconfigure.msg import Config as ConfigMsg
 from python_qt_binding import loadUi
-from python_qt_binding.QtCore import Qt, Signal
-from python_qt_binding.QtGui import QCheckBox, QComboBox, QDoubleValidator, QIntValidator, QHBoxLayout, QLabel, QLineEdit, QPainter, QSlider, QWidget
+from python_qt_binding.QtGui import (QDoubleValidator, QIntValidator, QLabel,
+                                     QWidget)
 import rospkg
 import rospy
-
-from .param_updater import ParamUpdater
 
 EDITOR_TYPES = {
     'bool': 'BooleanEditor',
@@ -51,20 +48,25 @@ EDITOR_TYPES = {
     'double': 'DoubleEditor',
 }
 
-# These .ui files are frequently loaded multiple times. Since file access 
+# These .ui files are frequently loaded multiple times. Since file access
 # costs a lot, only load each file once.
 rp = rospkg.RosPack()
-ui_bool = os.path.join(rp.get_path('rqt_reconfigure'), 'resource', 'editor_bool.ui')
-ui_str = os.path.join(rp.get_path('rqt_reconfigure'), 'resource', 'editor_string.ui')
-ui_num = os.path.join(rp.get_path('rqt_reconfigure'), 'resource', 'editor_number.ui')
-ui_int = ui_num 
-ui_enum = os.path.join(rp.get_path('rqt_reconfigure'), 'resource', 'editor_enum.ui')
+ui_bool = os.path.join(rp.get_path('rqt_reconfigure'), 'resource',
+                       'editor_bool.ui')
+ui_str = os.path.join(rp.get_path('rqt_reconfigure'), 'resource',
+                      'editor_string.ui')
+ui_num = os.path.join(rp.get_path('rqt_reconfigure'), 'resource',
+                      'editor_number.ui')
+ui_int = ui_num
+ui_enum = os.path.join(rp.get_path('rqt_reconfigure'), 'resource',
+                       'editor_enum.ui')
+
 
 class EditorWidget(QWidget):
 
     def __init__(self, updater, config):
         """
-        :param updater: 
+        :param updater:
         :type updater: rqt_reconfigure.ParamUpdater
         """
 
@@ -74,7 +76,6 @@ class EditorWidget(QWidget):
         self.param_name = config['name']
 
         self.old_value = None
-        #self.rp = rospkg.RosPack()
 
     def _update(self, value):
         if value != self.old_value:
@@ -82,15 +83,20 @@ class EditorWidget(QWidget):
             self.old_value = value
 
     def update_value(self, value):
+        """
+        To be overridden in subclass.
+
+        Update the value of the arbitrary components based on user's input.
+        """
         pass
 
     def update_configuration(self, value):
-        self.updater.update({self.param_name : value})
+        self.updater.update({self.param_name: value})
 
     def display(self, grid, row):
         """
         Should be overridden in subclass.
-    
+
         :type grid: QFormLayout
         :type row: ???
         """
@@ -101,6 +107,7 @@ class EditorWidget(QWidget):
         Should be overridden in subclass.
         """
         pass
+
 
 class BooleanEditor(EditorWidget):
     def __init__(self, updater, config):
@@ -116,6 +123,7 @@ class BooleanEditor(EditorWidget):
     def display(self, grid, row):
         grid.addRow(QLabel(self.param_name), self)
 
+
 class StringEditor(EditorWidget):
     def __init__(self, updater, config):
         super(StringEditor, self).__init__(updater, config)
@@ -124,13 +132,17 @@ class StringEditor(EditorWidget):
         self._paramval_lineedit.editingFinished.connect(self.edit_finished)
 
     def update_value(self, value):
+        rospy.logdebug('StringEditor update_value={}'.format(value))
         self._paramval_lineedit.setText(value)
 
     def edit_finished(self):
+        rospy.logdebug('StringEditor edit_finished val={}'.format(
+                                              self._paramval_lineedit.text()))
         self._update(self._paramval_lineedit.text())
 
     def display(self, grid, row):
         grid.addRow(QLabel(self.param_name), self)
+
 
 class IntegerEditor(EditorWidget):
     def __init__(self, updater, config):
@@ -146,14 +158,17 @@ class IntegerEditor(EditorWidget):
         self._slider_horizontal.setRange(self.min, self.max)
         self._slider_horizontal.sliderReleased.connect(self.slider_released)
         self._slider_horizontal.sliderMoved.connect(self.update_text)
+        # valueChanged gets called when groove is clicked on.
+        self._slider_horizontal.valueChanged.connect(self.update_value)
 
-        # TODO(Isaac) Fix that the naming of _paramval_lineEdit instance is not
-        #            consistent among Editor's subclasses.
+        # TODO: Fix that the naming of _paramval_lineEdit instance is not
+        #       consistent among Editor's subclasses.
         self._paramval_lineEdit.setValidator(QIntValidator(self.min,
                                                            self.max, self))
         self._paramval_lineEdit.editingFinished.connect(self.editing_finished)
 
-        # TODO: This should not always get set to the default it should be the current value
+        # TODO: This should not always get set to the default it should be the
+        # current value
         self._paramval_lineEdit.setText(str(config['default']))
         self._slider_horizontal.setSliderPosition(int(config['default']))
 
@@ -173,11 +188,12 @@ class IntegerEditor(EditorWidget):
     def update_value(self, val):
         self._slider_horizontal.setSliderPosition(int(val))
         self._paramval_lineEdit.setText(str(val))
+        rospy.logdebug(' IntegerEditor.update_val val=%s', str(val))
+        self._update(self._slider_horizontal.value())
 
     def display(self, grid, row):
-#        grid.addWidget(QLabel(self.param_name), row, 0, Qt.AlignRight)
-#        grid.addWidget(self, row, 1)
         grid.addRow(QLabel(self.param_name), self)
+
 
 class DoubleEditor(EditorWidget):
     def __init__(self, updater, config):
@@ -237,6 +253,7 @@ class DoubleEditor(EditorWidget):
 
     def update_text(self, value):
         self._paramval_lineEdit.setText(str(self.get_value()))
+        rospy.logdebug(' DblEditor.update_text val=%s', str(value))
 
     def editing_finished(self):
         self._slider_horizontal.setSliderPosition(
@@ -251,6 +268,7 @@ class DoubleEditor(EditorWidget):
     def display(self, grid, row):
         grid.addRow(QLabel(self.param_name), self)
 
+
 class EnumEditor(EditorWidget):
     def __init__(self, updater, config):
         super(EnumEditor, self).__init__(updater, config)
@@ -260,7 +278,7 @@ class EnumEditor(EditorWidget):
         try:
             enum = eval(config['edit_method'])['enum']
         except:
-            print("Malformed enum")
+            rospy.logerr("reconfig EnumEditor) Malformed enum")
             return
 
         self.names = [item['name'] for item in enum]
