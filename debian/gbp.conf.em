@@ -1,3 +1,3 @@
 [git-buildpackage]
-upstream-branch=release/rqt_dep/0.2.10
+upstream-branch=@(release_tag)
 upstream-tree=branch
