@@ -42,9 +42,10 @@ import dynamic_reconfigure as dyn_reconf
 from python_qt_binding import loadUi
 from python_qt_binding.QtCore import Qt, Signal
 from python_qt_binding.QtGui import (QHeaderView, QItemSelectionModel,
-                                     QStandardItemModel, QWidget)
+                                     QWidget)
 import rospkg
 import rospy
+from rospy.exceptions import ROSException
 import rosservice
 
 from rqt_py_common.rqt_ros_graph import RqtRosGraph
@@ -52,12 +53,14 @@ from rqt_reconfigure.filter_children_model import FilterChildrenModel
 from rqt_reconfigure.treenode_qstditem import TreenodeQstdItem
 from rqt_reconfigure.treenode_item_model import TreenodeItemModel
 
+from rqt_reconfigure.dynreconf_client_widget import DynreconfClientWidget
+
 
 class NodeSelectorWidget(QWidget):
     _COL_NAMES = ['Node']
 
     # public signal
-    sig_node_selected = Signal(str)
+    sig_node_selected = Signal(DynreconfClientWidget)
 
     def __init__(self):
         super(NodeSelectorWidget, self).__init__()
@@ -145,8 +148,15 @@ class NodeSelectorWidget(QWidget):
         """
         self.selectionModel.select(index_current, QItemSelectionModel.Deselect)
 
+        try:
+            w = self._nodeitems[rosnode_name_selected].get_dynreconf_widget()
+        except ROSException as e:
+            raise e
+
         # Signal to notify other pane that also contains node widget.
-        self.sig_node_selected.emit(rosnode_name_selected)
+        self.sig_node_selected.emit(
+                 w)
+        #self.sig_node_selected.emit(self._nodeitems[rosnode_name_selected])
 
     def _selection_selected(self, index_current, rosnode_name_selected):
         """Intended to be called from _selection_changed_slot."""
@@ -166,6 +176,7 @@ class NodeSelectorWidget(QWidget):
             if ((name_nodeitem == rosnode_name_selected) and
                 (name_nodeitem[name_nodeitem.rfind(RqtRosGraph.DELIM_GRN) + 1:]
                  == name_rosnode_leaf)):
+
                 rospy.logdebug('terminal str {} MATCH {}'.format(
                                              name_nodeitem, name_rosnode_leaf))
                 found_node = True
@@ -176,36 +187,19 @@ class NodeSelectorWidget(QWidget):
             return
 
         # Only when it's a terminal we move forward.
-        item_child = self._item_model.itemFromIndex(index_current.child(0, 0))
-        rospy.logdebug('item_selected={} item_child={} r={} c={}'.format(
-                       index_current, item_child,
-                       index_current.row(), index_current.column()))
 
-        self.sig_node_selected.emit(rosnode_name_selected)
+        item_child = self._nodeitems[rosnode_name_selected]
+        item_widget = None
+        try:
+            item_widget = item_child.get_dynreconf_widget()
+        except ROSException as e:
+            raise e
+        rospy.logdebug('item_selected={} child={} widget={}'.format(
+                       index_current, item_child, item_widget))
+        self.sig_node_selected.emit(item_widget)
 
         # Show the node as selected.
         #selmodel.select(index_current, QItemSelectionModel.SelectCurrent)
-
-    def _current_selection_changed_slot(self, qindex_curr, qindex_prev):
-
-        # Obtaining the intended qindex is tricky. See  http://goo.gl/P6J5p
-        # Here, instead of using Qt's standard way, I made a custom way to
-        # get the corresponding qindex.
-
-        rosnode_name_selected = RqtRosGraph.get_upper_grn(qindex_curr, '')
-        rospy.loginfo(' index.data={} rosnode_name_selected={}'.format(
-                      qindex_curr.data(Qt.DisplayRole),
-                      rosnode_name_selected))
-        if not rosnode_name_selected in self._nodeitems.keys():
-            # De-select the selected item.
-            self.selectionModel.select(qindex_curr,
-                                       QItemSelectionModel.Deselect)
-            return
-
-        self._selection_selected(qindex_curr, rosnode_name_selected)
-
-        #TODO: Detect deselection?
-        #self._selection_deselected(qindex_curr, rosnode_name_selected)
 
     def _selection_changed_slot(self, selected, deselected):
         """
@@ -234,6 +228,8 @@ class NodeSelectorWidget(QWidget):
             # permanent solution is asked here http://goo.gl/V4DT1
             index_current = deselected.indexes()[0]
 
+        rospy.logdebug('  - - - index_current={}'.format(index_current))
+
         rosnode_name_selected = RqtRosGraph.get_upper_grn(index_current, '')
 
         # If retrieved node name isn't in the list of all nodes.
@@ -244,9 +240,18 @@ class NodeSelectorWidget(QWidget):
             return
 
         if len(selected.indexes()) > 0:
-            self._selection_selected(index_current, rosnode_name_selected)
+            try:
+                self._selection_selected(index_current, rosnode_name_selected)
+            except ROSException as e:
+                rospy.logerr(e.message)
+                #TODO: print to sysmsg pane
         elif len(deselected.indexes()) > 0:
-            self._selection_deselected(index_current, rosnode_name_selected)
+            try:
+                self._selection_deselected(index_current,
+                                           rosnode_name_selected)
+            except ROSException as e:
+                rospy.logerr(e.message)
+                #TODO: print to sysmsg pane
 
     def get_paramitems(self):
         """
@@ -281,15 +286,30 @@ class NodeSelectorWidget(QWidget):
 #                    continue
                 #### (End) For DEBUG ONLY. ####
 
+                # Instantiate QStandardItem. Inside, dyn_reconf client will
+                # be generated too.
                 treenodeitem_toplevel = TreenodeQstdItem(
-                                 node_name_grn, TreenodeQstdItem.NODE_FULLPATH)
+                                node_name_grn, TreenodeQstdItem.NODE_FULLPATH)
                 _treenode_names = treenodeitem_toplevel.get_treenode_names()
+
+                try:
+                    treenodeitem_toplevel.connect_param_server()
+                except rospy.exceptions.ROSException as e:
+                    rospy.logerr(e.message)
+                    #Skip item that fails to connect to its node.
+                    continue
+                    #TODO: Needs to show err msg on GUI too.
+
+                # Using OrderedDict here is a workaround for StdItemModel
+                # not returning corresponding item to index.
                 self._nodeitems[node_name_grn] = treenodeitem_toplevel
+
                 self._add_children_treenode(treenodeitem_toplevel,
                                             self._rootitem, _treenode_names)
 
                 time_siglenode_loop = time.time() - time_siglenode_loop
                 elapsedtime_overall += time_siglenode_loop
+
                 # NOT a debug print - please DO NOT remove. This print works
                 # as progress notification when loading takes long time.
                 rospy.loginfo('reconf ' +
@@ -340,23 +360,15 @@ class NodeSelectorWidget(QWidget):
         else:
             stditem = stditem_prev
 
-        if len(child_names_left) != 0:
-            # TODO: View & Model are closely bound here. Ideally isolate those
-            #       2. Maybe we should split into 2 class, 1 handles view,
-            #       the other does model.
+        if 0 < len(child_names_left):
+            # TODO: Model is closely bound to a certain type of view (treeview)
+            # here. Ideally isolate those two. Maybe we should split into 2
+            # class, 1 handles view, the other does model.
             self._add_children_treenode(treenodeitem_toplevel, stditem,
                                         child_names_left)
         else:  # Selectable ROS Node.
             #TODO: Accept even non-terminal treenode as long as it's ROS Node.
             self._item_model.set_item_from_index(grn_curr, stditem.index())
-
-            try:
-                stditem.connect_param_server()
-            except rospy.exceptions.ROSException as e:
-                rospy.logerr(e.message)
-                #Remove item that fails to connect to its node from parent item
-                treenodeitem_parent.takeRow(stditem.row())
-                #TODO: Needs to show err msg on GUI too.
 
     def _refresh_nodes(self):
         # TODO: In the future, do NOT remove all nodes. Instead,
