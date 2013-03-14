@@ -50,6 +50,7 @@ class LaunchMain(object):
                                                  False)
 
         self._run_id = None
+        self._node_controllers = []
 
         #RqtRoscommUtil.load_parameters(self._config, '/rqt_launch')
 
@@ -65,7 +66,6 @@ class LaunchMain(object):
             n.start(restart=False)
 
     def stop_all(self):
-        rospy.loginfo("Stopping all nodes")
         for n in self._node_controllers:
             n.stop()
 
@@ -74,8 +74,8 @@ class LaunchMain(object):
             n.check_process_status()
 
     def shutdown(self):
-        #TODO: Stop all ROS Node processes
-        pass
+        rospy.logdebug('Launchmain.shutdown')
+        self.stop_all()
 
     def save_settings(self, plugin_settings, instance_settings):
         self._mainwidget.save_settings(plugin_settings, instance_settings)
