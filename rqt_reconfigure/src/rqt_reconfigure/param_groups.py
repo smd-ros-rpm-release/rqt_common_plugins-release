@@ -42,9 +42,9 @@ import rospy
 
 # *Editor classes that are not explicitly used within this .py file still need
 # to be imported. They are invoked implicitly during runtime.
-from .param_editors import (BooleanEditor, DoubleEditor, EditorWidget,
-                            EDITOR_TYPES, EnumEditor, IntegerEditor,
-                            StringEditor)
+from .param_editors import BooleanEditor, DoubleEditor, EditorWidget, \
+                           EDITOR_TYPES, EnumEditor, IntegerEditor, \
+                           StringEditor
 
 _GROUP_TYPES = {
     '': 'BoxGroup',
@@ -69,7 +69,7 @@ def find_cfg(config, name):
             else:
                 try:
                     cfg = find_cfg(v, name)
-                    if not cfg == None:
+                    if cfg:
                         return cfg
                 except Exception as exc:
                     raise exc
@@ -205,7 +205,7 @@ class GroupWidget(QWidget):
                           name)
 
         for i, ed in enumerate(self.editor_widgets):
-            ed.display(self.grid, i)
+            ed.display(self.grid)
 
         rospy.logdebug('GroupWdgt._create_node_widgets len(editor_widgets)=%d',
                       len(self.editor_widgets))
@@ -271,7 +271,7 @@ class TabGroup(GroupWidget):
         super(TabGroup, self).__init__(updater, config)
         self.parent = parent
 
-        if self.parent.tab_bar is None:
+        if not self.parent.tab_bar:
             self.parent.tab_bar = QTabWidget()
 
         parent.tab_bar.addTab(self, self.name)
