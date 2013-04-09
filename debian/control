@@ -1,0 +1,12 @@
+Source: ros-groovy-rqt-msg
+Section: misc
+Priority: extra
+Maintainer: Aaron Blasdel <ablasdel@willowgarage.com>, Isaac Saito <isao.saito@mavs.uta.edu>
+Build-Depends: debhelper (>= 7.0.50~), ros-groovy-catkin
+Homepage: http://ros.org/wiki/rqt_msg
+Standards-Version: 3.9.2
+
+Package: ros-groovy-rqt-msg
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-rospkg, ros-groovy-roslib, ros-groovy-rosmsg, ros-groovy-rospy, ros-groovy-rqt-console, ros-groovy-rqt-gui, ros-groovy-rqt-gui-py, ros-groovy-rqt-py-common
+Description: A Python GUI plugin for introspecting available ROS message types. Note that the msgs available through this plugin is the ones that are stored on your machine, not on the ROS core your rqt instance connects to.
