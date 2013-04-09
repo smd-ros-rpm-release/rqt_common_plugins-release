@@ -34,31 +34,60 @@ from __future__ import division
 import os
 
 from python_qt_binding import loadUi
-from python_qt_binding.QtCore import Qt, QTimer, Slot
+from python_qt_binding.QtCore import Qt, QTimer, Signal, Slot
 from python_qt_binding.QtGui import QHeaderView, QIcon, QMenu, QTreeWidgetItem, QWidget
-
 import roslib
-import rospy
 import rospkg
+import rospy
+from rospy.exceptions import ROSException
 
 from .topic_info import TopicInfo
 
 
-# main class inherits from the ui window class
 class TopicWidget(QWidget):
-    _column_names = ['topic', 'type', 'bandwidth', 'rate', 'value']
+    """
+    main class inherits from the ui window class.
 
-    def __init__(self, plugin):
+    You can specify the topics that the topic pane.
+
+    TopicWidget.start must be called in order to update topic pane.
+    """
+
+    SELECT_BY_NAME = 0
+    SELECT_BY_MSGTYPE = 1
+
+    _column_names = ['topic', 'type', 'bandwidth', 'rate', 'value']
+    sig_sysmsg = Signal(str)
+
+    def __init__(self, plugin=None, selected_topics=None,
+                 select_topic_type=SELECT_BY_NAME):
+        """
+        @type selected_topics: dict
+        @type select_topic_type: int
+        @param select_topic_type: Can specify either the name of topics or by
+                                  the type of topic, to filter the topics to
+                                  show. If 'select_topic_type' argument is
+                                  None, this arg shouldn'g be meaningful.
+        """
         super(TopicWidget, self).__init__()
+
+        self._select_topic_type = select_topic_type
+
         rp = rospkg.RosPack()
-        ui_file = os.path.join(rp.get_path('rqt_topic'), 'resource', 'TopicWidget.ui')
+        ui_file = os.path.join(rp.get_path('rqt_topic'), 'resource',
+                               'TopicWidget.ui')
         loadUi(ui_file, self)
         self._plugin = plugin
         self.topics_tree_widget.sortByColumn(0, Qt.AscendingOrder)
         header = self.topics_tree_widget.header()
         header.setResizeMode(QHeaderView.ResizeToContents)
-        header.customContextMenuRequested.connect(self.handle_header_view_customContextMenuRequested)
+        header.customContextMenuRequested.connect(
+                            self.handle_header_view_customContextMenuRequested)
         header.setContextMenuPolicy(Qt.CustomContextMenu)
+
+        # Whether to get all topics or only the topics that are set in advance.
+        # Can be also set by the setter method.
+        self._selected_topics = selected_topics
 
         self._current_topic_list = []
         self._topics = {}
@@ -67,16 +96,71 @@ class TopicWidget(QWidget):
         for column_name in self._column_names:
             self._column_index[column_name] = len(self._column_index)
 
-        self.refresh_topics()
+        #self.refresh_topics()
+
         # init and start update timer
         self._timer_refresh_topics = QTimer(self)
-        self._timer_refresh_topics.timeout.connect(self.refresh_topics)
+        self._timer_refresh_topics.timeout.connect(self._kick_refresh_topics)
+
+    def set_topic_specifier(self, specifier):
+        self._select_topic_type = specifier
+
+    def start(self):
+        """
+        This method needs to be called to start updating topic pane.
+        """
         self._timer_refresh_topics.start(1000)
+
+    def _kick_refresh_topics(self):
+        """
+        Calling internally self.refresh_topics method.
+        Reason of existence is to catch possible exception raised from
+        refresh_topics method that can be used as a callback.
+        """
+        try:
+            self.refresh_topics()
+        except Exception as e:
+            self.sig_sysmsg.emit(e.message)
 
     @Slot()
     def refresh_topics(self):
-        # refresh tree view items
-        topic_list = rospy.get_published_topics()
+        """
+        refresh tree view items
+
+        @raise ROSException
+        """
+        topic_list = self._selected_topics
+        if topic_list == None:
+            topic_list = rospy.get_published_topics()
+            if topic_list == None:
+                raise ROSException("Not even a single topic found published. "
+                                   + "Check network configuration")
+        else:  # Topics to show are specified.
+            topic_specifiers_server_all = None
+            topic_specifiers_required = None
+            if self._select_topic_type == self.SELECT_BY_NAME:
+                topic_specifiers_server_all = [name for name, type in
+                                               rospy.get_published_topics()]
+                topic_specifiers_required = [name for name, type in topic_list]
+            elif self._select_topic_type == self.SELECT_BY_MSGTYPE:
+                #topic_specifiers_server_all = [type for name, type in
+                #                               rospy.get_published_topics()]
+                topic_specifiers_required = [type for name, type in topic_list]
+                topics_match = [(name, type) for name, type
+                                in rospy.get_published_topics()
+                                if type in topic_specifiers_required]
+                topic_list = topics_match
+                rospy.logdebug('selected & published topic types={}'.format(
+                                                                   topic_list))
+            rospy.logdebug('server_all={}\nrequired={}\ntlist={}'.format(
+                                      topic_specifiers_server_all,
+                                      topic_specifiers_required, topic_list))
+#             topics_not_published = [n for n in topic_specifiers_required
+#                                     if not n in topic_specifiers_server_all]
+            if len(topic_list) == 0:
+                raise ROSException("None of the required topics " +
+                   " are found. Make sure that they're published")
+
         if self._current_topic_list != topic_list:
             self._current_topic_list = topic_list
 
@@ -252,3 +336,11 @@ class TopicWidget(QWidget):
         for topic in self._topics.values():
             topic['info'].stop_monitoring()
         self._timer_refresh_topics.stop()
+
+    def set_selected_topics(self, selected_topics):
+        """
+        @param selected_topics: list of tuple. [(topic_name, topic_type)]
+        @type selected_topics: []
+        """
+        rospy.logdebug(' topics={}'.format(len(selected_topics)))
+        self._selected_topics = selected_topics
