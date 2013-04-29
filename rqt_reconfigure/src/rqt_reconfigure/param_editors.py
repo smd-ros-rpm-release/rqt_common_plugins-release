@@ -67,7 +67,7 @@ class EditorWidget(QWidget):
     def __init__(self, updater, config):
         """
         :param updater:
-        :type updater: rqt_reconfigure.ParamUpdater
+        :type updater: rqt_reconfigure.param_updater.ParamUpdater
         """
 
         super(EditorWidget, self).__init__()
@@ -93,14 +93,18 @@ class EditorWidget(QWidget):
     def update_configuration(self, value):
         self.updater.update({self.param_name: value})
 
-    def display(self, grid, row):
+    def display(self, grid):
         """
         Should be overridden in subclass.
 
         :type grid: QFormLayout
         :type row: ???
         """
-        pass
+        self._paramname_label.setText(self.param_name)
+#        label_paramname = QLabel(self.param_name)
+#        label_paramname.setWordWrap(True)
+        self._paramname_label.setMinimumWidth(100)
+        grid.addRow(self._paramname_label, self)
 
     def close(self):
         """
@@ -120,9 +124,6 @@ class BooleanEditor(EditorWidget):
     def update_value(self, value):
         self._checkbox.setChecked(value)
 
-    def display(self, grid, row):
-        grid.addRow(QLabel(self.param_name), self)
-
 
 class StringEditor(EditorWidget):
     def __init__(self, updater, config):
@@ -139,9 +140,6 @@ class StringEditor(EditorWidget):
         rospy.logdebug('StringEditor edit_finished val={}'.format(
                                               self._paramval_lineedit.text()))
         self._update(self._paramval_lineedit.text())
-
-    def display(self, grid, row):
-        grid.addRow(QLabel(self.param_name), self)
 
 
 class IntegerEditor(EditorWidget):
@@ -189,10 +187,6 @@ class IntegerEditor(EditorWidget):
         self._slider_horizontal.setSliderPosition(int(val))
         self._paramval_lineEdit.setText(str(val))
         rospy.logdebug(' IntegerEditor.update_val val=%s', str(val))
-        self._update(self._slider_horizontal.value())
-
-    def display(self, grid, row):
-        grid.addRow(QLabel(self.param_name), self)
 
 
 class DoubleEditor(EditorWidget):
@@ -225,6 +219,9 @@ class DoubleEditor(EditorWidget):
             self.ifunc = lambda x: math.tan(x)
 
         self.scale = (self.func(self.max) - self.func(self.min)) / 100
+        if self.scale == 0:
+            self.setDisabled(True)
+
         self.offset = self.func(self.min)
 
         self._slider_horizontal.setRange(self.slider_value(self.min),
@@ -245,7 +242,7 @@ class DoubleEditor(EditorWidget):
         return self.ifunc(self._slider_horizontal.value() * self.scale)
 
     def slider_value(self, value):
-        return int(round((self.func(value)) / self.scale))
+        return int(round((self.func(value)) / self.scale)) if self.scale else 0
 
     def slider_released(self):
         self.update_text(self.get_value())
@@ -264,9 +261,6 @@ class DoubleEditor(EditorWidget):
         self._slider_horizontal.setSliderPosition(
                                   self.slider_value(float(val)))
         self._paramval_lineEdit.setText(str(val))
-
-    def display(self, grid, row):
-        grid.addRow(QLabel(self.param_name), self)
 
 
 class EnumEditor(EditorWidget):
@@ -291,10 +285,8 @@ class EnumEditor(EditorWidget):
         self._combobox.currentIndexChanged['int'].connect(self.selected)
 
     def selected(self, index):
+        self._combobox.setCurrentIndex(self.values[index])
         self._update(self.values[index])
 
-    def update_value(self, val):
-        self._combobox.setCurrentIndex(self.values.index(val))
-
-    def display(self, grid, row):
-        grid.addRow(QLabel(self.param_name), self)
+    #def update_value(self, val):
+    #    self._combobox.setCurrentIndex(self.values.index(val))
