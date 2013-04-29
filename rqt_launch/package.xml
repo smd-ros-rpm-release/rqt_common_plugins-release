@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>rqt_launch</name>
-  <version>0.2.14</version>
+  <version>0.2.16</version>
   <description>This rqt plugin ROS package provides easy view of .launch files.
   User can also start and end node by node that are defined in those files. 
   </description>
@@ -14,7 +14,7 @@
   <url type="bugtracker">https://github.com/ros-visualization/rqt_common_plugins/issues</url>
   
   <author email="isaito@osrfoundation.org">Isaac Saito</author>
-  <author>Stuart Glacer</author>
+  <author>Stuart Glaser</author>
   
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>rqt_py_common</build_depend>
@@ -24,7 +24,6 @@
   <run_depend>rqt_gui</run_depend>
   <run_depend>rqt_gui_py</run_depend>
   <run_depend>rqt_py_common</run_depend>
-  <test_depend>unittest</test_depend>
 
   <export>
 		<rqt_gui plugin="${prefix}/plugin.xml" />
