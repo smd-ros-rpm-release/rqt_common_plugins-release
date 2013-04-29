@@ -1,6 +1,6 @@
 <package>
 	<name>rqt_reconfigure</name>
-	<version>0.2.14</version>
+	<version>0.2.16</version>
 	<description>This rqt plugin succeeds former dynamic_reconfigure's GUI
 		(reconfigure_gui), and provides the way to view and edit the parameters
 		that are accessible via dynamic_reconfigure.<br />
@@ -12,7 +12,7 @@
 		on dynamic_reconfigure that allows access to only those params latched 
 		to nodes.
 	</description>
-	<maintainer email="isaito@willowgarage.com">Isaac Saito</maintainer>
+	<maintainer email="130s@alumni.smu.edu">Isaac Saito</maintainer>
 
 	<license>BSD</license>
 
@@ -20,7 +20,7 @@
 	<url type="repository">https://github.com/ros-visualization/rqt_common_plugins/rqt_reconfigure</url>
 	<url type="bugtracker">https://github.com/ros-visualization/rqt_common_plugins/issues</url>
 
-	<author>Isaac Saito</author>
+	<author email="isaito@willowgarage.com">Isaac Saito</author>
 	<author>Ze'ev Klapow</author>
 
 	<buildtool_depend>catkin</buildtool_depend>
@@ -31,8 +31,6 @@
 	<run_depend>rqt_gui</run_depend>
 	<run_depend>rqt_gui_py</run_depend>
 	<run_depend>rqt_py_common</run_depend>
-
-	<test_depend>unittest</test_depend>
 	<export>
 		<rqt_gui plugin="${prefix}/plugin.xml" />
 	</export>
