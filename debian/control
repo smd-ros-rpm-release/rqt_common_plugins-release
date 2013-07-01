@@ -1,0 +1,12 @@
+Source: ros-groovy-rqt-web
+Section: misc
+Priority: extra
+Maintainer: "Aaron Blasdel <ablasdel@gmail.com>, Isaac Saito <isao.saito@mavs.uta.edu>"
+Build-Depends: debhelper (>= 7.0.50~), ros-groovy-catkin
+Homepage: http://ros.org/wiki/rqt_web
+Standards-Version: 3.9.2
+
+Package: ros-groovy-rqt-web
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-rospkg, ros-groovy-qt-gui, ros-groovy-rospy, ros-groovy-rqt-gui, ros-groovy-rqt-gui-py
+Description: rqt_web is a simple web content viewer for rqt. Users can show web content in Qt-based window by specifying its URL.
