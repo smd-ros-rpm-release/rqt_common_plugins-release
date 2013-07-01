@@ -43,7 +43,6 @@ import rospy
 
 
 from .messages_tree_view import MessagesTreeView
-#from rqt_action import rosaction
 from rqt_py_common import rosaction
 from rqt_console.text_browse_dialog import TextBrowseDialog
 
@@ -68,8 +67,7 @@ class MessagesWidget(QWidget):
 
         super(MessagesWidget, self).__init__()
         rp = rospkg.RosPack()
-        ui_file = os.path.join(rp.get_path(pkg_name), 'resource',
-                               ui_filename)
+        ui_file = os.path.join(rp.get_path(pkg_name), 'resource', ui_filename)
         loadUi(ui_file, self, {'MessagesTreeView': MessagesTreeView})
         self.setObjectName(ui_filename)
         self._mode = mode
@@ -78,8 +76,7 @@ class MessagesWidget(QWidget):
         self._add_button.clicked.connect(self._add_message)
         self._refresh_packages(mode)
         self._refresh_msgs(self._package_combo.itemText(0))
-        self._package_combo.currentIndexChanged[str].connect(
-                                                            self._refresh_msgs)
+        self._package_combo.currentIndexChanged[str].connect(self._refresh_msgs)
         self._messages_tree.mousePressEvent = self._handle_mouse_press
 
         self._browsers = []
