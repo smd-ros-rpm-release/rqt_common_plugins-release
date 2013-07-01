@@ -1,0 +1,39 @@
+ros-groovy-rqt-action (0.2.16-0oneiric) oneiric; urgency=high
+
+
+
+ -- Isaac Isao Saito <130s@2000.jukuin.keio.ac.jp>  Tue, 09 Apr 2013 04:33:00 -0000
+
+ros-groovy-rqt-action (0.2.15-0oneiric) oneiric; urgency=high
+
+
+
+ -- Isaac Isao Saito <130s@2000.jukuin.keio.ac.jp>  Mon, 08 Apr 2013 15:02:00 -0000
+
+ros-groovy-rqt-action (0.2.14-0oneiric) oneiric; urgency=high
+
+
+
+ -- Isaac Isao Saito <130s@2000.jukuin.keio.ac.jp>  Wed, 13 Mar 2013 15:00:00 -0000
+
+ros-groovy-rqt-action (0.2.13-0oneiric) oneiric; urgency=high
+
+
+
+ -- Isaac Isao Saito <130s@2000.jukuin.keio.ac.jp>  Mon, 11 Mar 2013 13:14:00 -0000
+
+ros-groovy-rqt-action (0.2.12-0oneiric) oneiric; urgency=high
+
+
+
+ -- Isaac Isao Saito <130s@2000.jukuin.keio.ac.jp>  Mon, 11 Mar 2013 04:56:00 -0000
+
+ros-groovy-rqt-action (0.2.11-0oneiric) oneiric; urgency=high
+
+  * Now depends on rqt_msg and rqt_action doesn't contain its own gui files
+  * Fix to Issue #26 <https://github.com/ros-visualization/rqt_common_plugins/issues/26>.
+  * Initial commit.
+
+ -- Isaac Isao Saito <130s@2000.jukuin.keio.ac.jp>  Thu, 07 Mar 2013 15:00:00 -0000
+
+
