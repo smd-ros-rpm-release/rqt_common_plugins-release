@@ -1,0 +1,53 @@
+<package>
+  <name>rqt_common_plugins</name>
+  <version>0.2.16</version>
+  <description>Metapackage for ROS backend graphical tools suite that can be used on/off of robot runtime.<br />
+   <br />
+   rqt consists of three following metapackages:<br />
+    <ul>
+     <li>rqt - core modules of ROS GUI framework. rqt plugin developers barely needs to pay attention.</li>
+     <li>rqt_common_plugins</li>
+     <li>rqt_robot_plugins - rqt plugins that are particularly used with robots during its operation.</li>
+    </ul>
+  </description>
+  <maintainer email="ablasdel@willowgarage.com">Aaron Blasdel</maintainer>
+  <maintainer email="130s@alumni.smu.edu">Isaac Saito</maintainer>
+
+  <license>BSD</license>
+
+  <url type="website">http://ros.org/wiki/rqt_common_plugins</url>
+  <url type="repository">https://github.com/ros-visualization/rqt_common_plugins</url>
+  <url type="bugtracker">https://github.com/ros-visualization/rqt_common_plugins/issues</url>
+
+  <author email="dthomas@willowgarage.com">Dirk Thomas</author>
+  <author>Dorian Scholz</author>
+  <author>Thibault Kruse</author>
+  <author email="ablasdel@willowgarage.com">Aaron Blasdel</author>
+  <author email="130s@alumni.smu.edu">Isaac Saito</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <run_depend>rqt_action</run_depend>
+  <run_depend>rqt_bag</run_depend>
+  <run_depend>rqt_bag_plugins</run_depend>
+  <run_depend>rqt_console</run_depend>
+  <run_depend>rqt_dep</run_depend>
+  <run_depend>rqt_graph</run_depend>
+  <run_depend>rqt_image_view</run_depend>
+  <run_depend>rqt_launch</run_depend>
+  <run_depend>rqt_logger_level</run_depend>
+  <run_depend>rqt_msg</run_depend>
+  <run_depend>rqt_plot</run_depend>
+  <run_depend>rqt_publisher</run_depend>
+  <run_depend>rqt_py_common</run_depend>
+  <run_depend>rqt_py_console</run_depend>
+  <run_depend>rqt_reconfigure</run_depend>
+  <run_depend>rqt_service_caller</run_depend>
+  <run_depend>rqt_shell</run_depend>
+  <run_depend>rqt_srv</run_depend>
+  <run_depend>rqt_topic</run_depend>
+  <run_depend>rqt_web</run_depend>
+
+  <export>
+    <metapackage/>
+  </export>
+</package>
