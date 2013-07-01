@@ -1,0 +1,12 @@
+Source: ros-groovy-rqt-dep
+Section: misc
+Priority: extra
+Maintainer: "Aaron Blasdel <ablasdel@willowgarage.com>, Isaac Saito <isao.saito@mavs.uta.edu>"
+Build-Depends: debhelper (>= 7.0.50~), ros-groovy-catkin
+Homepage: http://ros.org/wiki/rqt_dep
+Standards-Version: 3.9.2
+
+Package: ros-groovy-rqt-dep
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-rospkg, ros-groovy-qt-dotgraph, ros-groovy-qt-gui-py-common, ros-groovy-rqt-graph, ros-groovy-rqt-gui, ros-groovy-rqt-gui-py
+Description: rqt_dep provides a GUI plugin for visualizing the ROS dependency graph.
