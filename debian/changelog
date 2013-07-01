@@ -1,0 +1,110 @@
+ros-groovy-rqt-reconfigure (0.2.16-0oneiric) oneiric; urgency=high
+
+
+
+ -- Isaac Saito <130s@alumni.smu.edu>  Tue, 09 Apr 2013 04:33:00 -0000
+
+ros-groovy-rqt-reconfigure (0.2.15-0oneiric) oneiric; urgency=high
+
+  * Fix "Segmentation fault using integer sliderFix" #63 <https://github.com/ros-visualization/rqt_common_plugins/issues/63>
+
+ -- Isaac Saito <130s@alumni.smu.edu>  Mon, 08 Apr 2013 15:02:00 -0000
+
+ros-groovy-rqt-reconfigure (0.2.14-0oneiric) oneiric; urgency=high
+
+
+
+ -- Isaac Saito <130s@alumni.smu.edu>  Wed, 13 Mar 2013 15:00:00 -0000
+
+ros-groovy-rqt-reconfigure (0.2.13-0oneiric) oneiric; urgency=high
+
+
+
+ -- Isaac Saito <130s@alumni.smu.edu>  Mon, 11 Mar 2013 13:14:00 -0000
+
+ros-groovy-rqt-reconfigure (0.2.12-0oneiric) oneiric; urgency=high
+
+  * Improve performance significantly upon launch #45 <https://github.com/ros-visualization/rqt_common_plugins/issues/45>.
+
+ -- Isaac Saito <130s@alumni.smu.edu>  Mon, 11 Mar 2013 04:56:00 -0000
+
+ros-groovy-rqt-reconfigure (0.2.11-0oneiric) oneiric; urgency=high
+
+
+
+ -- Isaac Saito <130s@alumni.smu.edu>  Thu, 07 Mar 2013 15:00:00 -0000
+
+ros-groovy-rqt-reconfigure (0.2.10-0oneiric) oneiric; urgency=high
+
+
+
+ -- Isaac Saito <130s@alumni.smu.edu>  Mon, 21 Jan 2013 15:00:00 -0000
+
+ros-groovy-rqt-reconfigure (0.2.9-0oneiric) oneiric; urgency=high
+
+  * Add deletion of shown nodes feature
+
+ -- Isaac Saito <130s@alumni.smu.edu>  Wed, 16 Jan 2013 15:00:00 -0000
+
+ros-groovy-rqt-reconfigure (0.2.8-0oneiric) oneiric; urgency=high
+
+  * Fix "No Interaction with Boolean values" #2 <https://github.com/ros-visualization/rqt_common_plugins/issues/2>
+
+ -- Isaac Saito <130s@alumni.smu.edu>  Thu, 10 Jan 2013 15:00:00 -0000
+
+ros-groovy-rqt-reconfigure (0.2.7-0oneiric) oneiric; urgency=high
+
+
+
+ -- Isaac Saito <130s@alumni.smu.edu>  Sun, 23 Dec 2012 15:00:00 -0000
+
+ros-groovy-rqt-reconfigure (0.2.6-0oneiric) oneiric; urgency=high
+
+
+
+ -- Isaac Saito <130s@alumni.smu.edu>  Sat, 22 Dec 2012 15:00:00 -0000
+
+ros-groovy-rqt-reconfigure (0.2.5-0oneiric) oneiric; urgency=high
+
+
+
+ -- Isaac Saito <130s@alumni.smu.edu>  Fri, 21 Dec 2012 10:11:00 -0000
+
+ros-groovy-rqt-reconfigure (0.2.4-0oneiric) oneiric; urgency=high
+
+
+
+ -- Isaac Saito <130s@alumni.smu.edu>  Thu, 20 Dec 2012 16:13:00 -0000
+
+ros-groovy-rqt-reconfigure (0.2.3-0oneiric) oneiric; urgency=high
+
+
+
+ -- Isaac Saito <130s@alumni.smu.edu>  Thu, 20 Dec 2012 15:24:00 -0000
+
+ros-groovy-rqt-reconfigure (0.2.2-0oneiric) oneiric; urgency=high
+
+
+
+ -- Isaac Saito <130s@alumni.smu.edu>  Thu, 20 Dec 2012 09:29:00 -0000
+
+ros-groovy-rqt-reconfigure (0.2.1-0oneiric) oneiric; urgency=high
+
+
+
+ -- Isaac Saito <130s@alumni.smu.edu>  Thu, 20 Dec 2012 08:47:00 -0000
+
+ros-groovy-rqt-reconfigure (0.2.0-0oneiric) oneiric; urgency=high
+
+  * catkinize
+  * renamed rqt_param to rqt_reconfigure (added missing file)
+
+ -- Isaac Saito <130s@alumni.smu.edu>  Thu, 20 Dec 2012 08:39:00 -0000
+
+ros-groovy-rqt-reconfigure (0.1.7-0oneiric) oneiric; urgency=high
+
+  * introduced into groovy
+
+ -- Isaac Saito <130s@alumni.smu.edu>  Thu, 13 Dec 2012 07:17:00 -0000
+
+
