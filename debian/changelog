@@ -1,0 +1,37 @@
+ros-groovy-rqt-launch (0.2.16-0quantal) quantal; urgency=high
+
+
+
+ -- Isaac Saito <130s@lateeye.net>  Tue, 09 Apr 2013 04:33:00 -0000
+
+ros-groovy-rqt-launch (0.2.15-0quantal) quantal; urgency=high
+
+
+
+ -- Isaac Saito <130s@lateeye.net>  Mon, 08 Apr 2013 15:02:00 -0000
+
+ros-groovy-rqt-launch (0.2.14-0quantal) quantal; urgency=high
+
+  * Fix (Start-Stop buttons now reflect nodes status, except when they crashed)
+
+ -- Isaac Saito <130s@lateeye.net>  Wed, 13 Mar 2013 15:00:00 -0000
+
+ros-groovy-rqt-launch (0.2.13-0quantal) quantal; urgency=high
+
+  * Nodes are stop-able now. Also now capable to add node widgets as children of nodes.
+
+ -- Isaac Saito <130s@lateeye.net>  Mon, 11 Mar 2013 13:14:00 -0000
+
+ros-groovy-rqt-launch (0.2.12-0quantal) quantal; urgency=high
+
+
+
+ -- Isaac Saito <130s@lateeye.net>  Mon, 11 Mar 2013 04:56:00 -0000
+
+ros-groovy-rqt-launch (0.2.11-0quantal) quantal; urgency=high
+
+  * Initial commit. Many things are hardcoded that are ported from rxlaunch by Stu Glacer.
+
+ -- Isaac Saito <130s@lateeye.net>  Thu, 07 Mar 2013 15:00:00 -0000
+
+
