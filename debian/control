@@ -1,0 +1,12 @@
+Source: ros-hydro-rqt-marble
+Section: misc
+Priority: extra
+Maintainer: "Isaac Saito <130s@alumni.smu.edu>"
+Build-Depends: debhelper (>= 7.0.50~), libmarble-dev, ros-hydro-catkin, ros-hydro-rqt-cpp-common, ros-hydro-rqt-gui, ros-hydro-rqt-gui-cpp
+Homepage: http://ros.org/wiki/rqt_marble
+Standards-Version: 3.9.2
+
+Package: ros-hydro-rqt-marble
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libmarble-dev, ros-hydro-rqt-cpp-common, ros-hydro-rqt-gui, ros-hydro-rqt-gui-cpp
+Description: rqt_marble works as an interface between KDE's Marble library and ROS. Utilizing sensor_msgs::NavSatFix, it provides following features: Publishes GPS coordinates in a path that user sets on global map Plots GPS coordinates of the robot's current positions Originally created as marble_plugin by Tobias Baer. DISCLAIMER: as of May 2013, build fails due to a missing in a library rqt_marble depends on on Ubuntu Oneiric. There's no workaround available yet.
