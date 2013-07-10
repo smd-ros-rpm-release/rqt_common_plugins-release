@@ -1,0 +1,45 @@
+ros-hydro-rqt-action (0.2.17-0quantal) quantal; urgency=high
+
+
+
+ -- Isaac Isao Saito <130s@2000.jukuin.keio.ac.jp>  Wed, 03 Jul 2013 15:00:00 -0000
+
+ros-hydro-rqt-action (0.2.16-0quantal) quantal; urgency=high
+
+
+
+ -- Isaac Isao Saito <130s@2000.jukuin.keio.ac.jp>  Tue, 09 Apr 2013 04:33:00 -0000
+
+ros-hydro-rqt-action (0.2.15-0quantal) quantal; urgency=high
+
+
+
+ -- Isaac Isao Saito <130s@2000.jukuin.keio.ac.jp>  Mon, 08 Apr 2013 15:02:00 -0000
+
+ros-hydro-rqt-action (0.2.14-0quantal) quantal; urgency=high
+
+
+
+ -- Isaac Isao Saito <130s@2000.jukuin.keio.ac.jp>  Wed, 13 Mar 2013 15:00:00 -0000
+
+ros-hydro-rqt-action (0.2.13-0quantal) quantal; urgency=high
+
+
+
+ -- Isaac Isao Saito <130s@2000.jukuin.keio.ac.jp>  Mon, 11 Mar 2013 13:14:00 -0000
+
+ros-hydro-rqt-action (0.2.12-0quantal) quantal; urgency=high
+
+
+
+ -- Isaac Isao Saito <130s@2000.jukuin.keio.ac.jp>  Mon, 11 Mar 2013 04:56:00 -0000
+
+ros-hydro-rqt-action (0.2.11-0quantal) quantal; urgency=high
+
+  * Now depends on rqt_msg to eliminate GUI files from this package
+  * Fix; IndexError: list index out of range (#26 <https://github.com/ros-visualization/rqt_common_plugins/issues/26>)
+  * first release of this package into groovy
+
+ -- Isaac Isao Saito <130s@2000.jukuin.keio.ac.jp>  Thu, 07 Mar 2013 15:00:00 -0000
+
+
