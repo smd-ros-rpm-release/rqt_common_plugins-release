@@ -1,0 +1,12 @@
+Source: ros-groovy-rqt-graph
+Section: misc
+Priority: extra
+Maintainer: "Aaron Blasdel <ablasdel@willowgarage.com>, Isaac Saito <isao.saito@mavs.uta.edu>"
+Build-Depends: debhelper (>= 7.0.50~), ros-groovy-catkin
+Homepage: http://ros.org/wiki/rqt_graph
+Standards-Version: 3.9.2
+
+Package: ros-groovy-rqt-graph
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-rospkg, ros-groovy-qt-dotgraph, ros-groovy-rosgraph, ros-groovy-roslib, ros-groovy-rosnode, ros-groovy-rosservice, ros-groovy-rostopic, ros-groovy-rqt-gui, ros-groovy-rqt-gui-py
+Description: rqt_graph provides a GUI plugin for visualizing the ROS computation graph. Its components are made generic so that other packages where you want to achieve graph representation can depend upon this pkg (use rqt_dep to find out the pkgs that depend. rqt_dep itself depends on rqt_graph too).
