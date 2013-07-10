@@ -1,0 +1,12 @@
+Source: ros-hydro-rqt-plot
+Section: misc
+Priority: extra
+Maintainer: "Dorian Scholz <scholz@sim.tu-darmstadt.de>, Isaac Saito <isao.saito@mavs.uta.edu>"
+Build-Depends: debhelper (>= 7.0.50~), ros-hydro-catkin
+Homepage: http://ros.org/wiki/rqt_plot
+Standards-Version: 3.9.2
+
+Package: ros-hydro-rqt-plot
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-matplotlib, python-qwt5-qt4, python-rospkg, ros-hydro-qt-gui-py-common, ros-hydro-rosgraph, ros-hydro-rostopic, ros-hydro-rqt-gui, ros-hydro-rqt-gui-py, ros-hydro-rqt-py-common
+Description: rqt_plot provides a GUI plugin visualizing numeric values in a 2D plot using different plotting backends.
