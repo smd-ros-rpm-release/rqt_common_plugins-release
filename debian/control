@@ -1,0 +1,12 @@
+Source: ros-hydro-rqt-topic
+Section: misc
+Priority: extra
+Maintainer: "Dorian Scholz <scholz@sim.tu-darmstadt.de>, Isaac Saito <isao.saito@mavs.uta.edu>"
+Build-Depends: debhelper (>= 7.0.50~), ros-hydro-catkin
+Homepage: http://ros.org/wiki/rqt_topic
+Standards-Version: 3.9.2
+
+Package: ros-hydro-rqt-topic
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-rospkg, ros-hydro-rostopic, ros-hydro-rqt-gui, ros-hydro-rqt-gui-py, ros-hydro-std-msgs
+Description: rqt_topic provides a GUI plugin for displaying debug information about ROS topics including publishers, subscribers, publishing rate, and ROS Messages.
