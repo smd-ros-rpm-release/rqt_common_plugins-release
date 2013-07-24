@@ -1,0 +1,9 @@
+ros-hydro-rqt-cpp-common (0.2.17-1precise) precise; urgency=high
+
+  * CMakeLists.txt correction due to the comments <https://github.com/ros-visualization/rqt_common_plugins/commit/5fba38e31847a43e498e786f006598cd0986b4bd#commitcomment-3203518>
+  * Move RouteGps.msg to other package (rqt_cpp_common).
+  * first release of this package into Groovy
+
+ -- Isaac Saito <130s@2000.jukuin.keio.ac.jp>  Wed, 03 Jul 2013 15:00:00 -0000
+
+
