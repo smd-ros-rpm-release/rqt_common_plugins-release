@@ -30,7 +30,7 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from python_qt_binding.QtCore import QMutex, QTimer
+from python_qt_binding.QtCore import QMutex, QMutexLocker, QTimer
 
 from qt_gui.plugin import Plugin
 
@@ -74,10 +74,9 @@ class Console(Plugin):
         """
         Callback for flushing incoming Log messages from the queue to the datamodel
         """
-        self._mutex.lock()
-        msgs = self._datamodel._insert_message_queue
-        self._datamodel._insert_message_queue = []
-        self._mutex.unlock()
+        with QMutexLocker(self._mutex):
+            msgs = self._datamodel._insert_message_queue
+            self._datamodel._insert_message_queue = []
         self._datamodel.insert_rows(msgs)
         self._mainwindow.update_status()
 
@@ -86,9 +85,8 @@ class Console(Plugin):
         Callback for adding an incomming message to the queue
         """
         if not self._datamodel._paused:
-            self._mutex.lock()
-            self._datamodel._insert_message_queue.append(msg)
-            self._mutex.unlock()
+            with QMutexLocker(self._mutex):
+                self._datamodel._insert_message_queue.append(msg)
 
     def shutdown_plugin(self):
         self._consolesubscriber.unsubscribe_topic()
@@ -104,4 +102,4 @@ class Console(Plugin):
     def trigger_configuration(self):
         self._consolesubscriber.set_message_limit(self._datamodel._message_limit)
         if self._consolesubscriber.show_dialog():
-            self._datamodel._message_limit = self._consolesubscriber.get_message_limit()
+            self._datamodel.set_message_limit(self._consolesubscriber.get_message_limit())
