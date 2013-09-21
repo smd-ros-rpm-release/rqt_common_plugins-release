@@ -125,13 +125,13 @@ class ConsoleWidget(QWidget):
         # Filter factory dictionary:
         # index 0 is a label describing the widget, index 1 is the class that provides filtering logic
         # index 2 is the widget that sets the data in the filter class, index 3 are the arguments for the widget class constructor
-        self.filter_factory = {'message': (self.tr('Message Filter'), MessageFilter, TextFilterWidget, []),
-                               'severity': (self.tr('Severity Filter'), SeverityFilter, ListFilterWidget, [self._datamodel.get_severity_list]),
-                               'node': (self.tr('Node Filter'), NodeFilter, ListFilterWidget, [self._datamodel.get_unique_col_data, 2]),
-                               'time': (self.tr('Time Filter'), TimeFilter, TimeFilterWidget, [self.get_time_range_from_selection]),
-                               'topic': (self.tr('Topic Filter'), TopicFilter, ListFilterWidget, [self._datamodel.get_unique_col_data, 4]),
-                               'location': (self.tr('Location Filter'), LocationFilter, TextFilterWidget, []),
-                               'custom': (self.tr('Custom Filter'), CustomFilter, CustomFilterWidget, [self._datamodel.get_severity_list, self._datamodel.get_unique_col_data, 2, self._datamodel.get_unique_col_data, 4])}
+        self.filter_factory = {'message': (self.tr('...containing'), MessageFilter, TextFilterWidget, []),
+                               'severity': (self.tr('...with severities'), SeverityFilter, ListFilterWidget, [self._datamodel.get_severity_list]),
+                               'node': (self.tr('...from node'), NodeFilter, ListFilterWidget, [self._datamodel.get_unique_col_data, 2]),
+                               'time': (self.tr('...from time range'), TimeFilter, TimeFilterWidget, [self.get_time_range_from_selection]),
+                               'topic': (self.tr('...from topic'), TopicFilter, ListFilterWidget, [self._datamodel.get_unique_col_data, 4]),
+                               'location': (self.tr('...from location'), LocationFilter, TextFilterWidget, []),
+                               'custom': (self.tr('Custom'), CustomFilter, CustomFilterWidget, [self._datamodel.get_severity_list, self._datamodel.get_unique_col_data, 2, self._datamodel.get_unique_col_data, 4])}
 
         # list of TextBrowserDialogs to close when cleaning up
         self._browsers = []
@@ -241,7 +241,7 @@ class ConsoleWidget(QWidget):
             filter_select_menu = QMenu()
             for index, item in self.filter_factory.items():
                 # flattens the _highlight filters list and only adds the item if it doesn't already exist
-                if self.filter_factory[index][0] == self.tr('Message Filter') or not self.filter_factory[index][1] in [type(item) for sublist in self._highlight_filters for item in sublist]:
+                if index == 'message' or not self.filter_factory[index][1] in [type(item) for sublist in self._highlight_filters for item in sublist]:
                     filter_select_menu.addAction(self.filter_factory[index][0])
             action = filter_select_menu.exec_(QCursor.pos())
             if action is None:
@@ -285,7 +285,7 @@ class ConsoleWidget(QWidget):
             filter_select_menu = QMenu()
             for index, item in self.filter_factory.items():
                 # flattens the _exclude filters list and only adds the item if it doesn't already exist
-                if self.filter_factory[index][0] == self.tr('Message Filter') or not self.filter_factory[index][1] in [type(item) for sublist in self._exclude_filters for item in sublist]:
+                if  index == 'message' or not self.filter_factory[index][1] in [type(item) for sublist in self._exclude_filters for item in sublist]:
                     filter_select_menu.addAction(self.filter_factory[index][0])
             action = filter_select_menu.exec_(QCursor.pos())
             if action is None:
@@ -480,8 +480,7 @@ class ConsoleWidget(QWidget):
             self._browsers[-1].show()
 
     def _handle_clear_button_clicked(self, checked):
-        self.table_view.setSelection(QRect(0, 0, self._datamodel._message_limit, self._datamodel._message_limit), QItemSelectionModel.Select)
-        self._delete_selected_rows()
+        self._datamodel.remove_rows([])
 
     def _handle_load_clicked(self, checked):
         filename = QFileDialog.getOpenFileName(self, self.tr('Load from File'), '.', self.tr('rqt_console message file {.csv} (*.csv)'))
@@ -564,7 +563,6 @@ class ConsoleWidget(QWidget):
         instance_settings.set_value('table_splitter', self.table_splitter.saveState())
         instance_settings.set_value('filter_splitter', self.filter_splitter.saveState())
 
-        instance_settings.set_value('paused', self.pause_button.isChecked())
         instance_settings.set_value('show_highlighted_only', self.highlight_exclude_button.isChecked())
 
         exclude_filters = []
@@ -580,6 +578,7 @@ class ConsoleWidget(QWidget):
             filter_settings = instance_settings.get_settings('highlight_filter_' + str(index))
             item[1].save_settings(filter_settings)
         instance_settings.set_value('highlight_filters', pack(highlight_filters))
+        instance_settings.set_value('message_limit', self._datamodel._message_limit)
 
     def restore_settings(self, pluggin_settings, instance_settings):
         if instance_settings.contains('table_splitter'):
@@ -591,8 +590,6 @@ class ConsoleWidget(QWidget):
         else:
             self.table_splitter.setSizes([500, 500])
 
-        self.pause_button.setChecked(instance_settings.value('paused') in [True, 'true'])
-        self._handle_pause_clicked(self.pause_button.isChecked())
         self.highlight_exclude_button.setChecked(instance_settings.value('show_highlighted_only') in [True, 'true'])
         self._proxymodel.set_show_highlighted_only(self.highlight_exclude_button.isChecked())
 
@@ -621,3 +618,6 @@ class ConsoleWidget(QWidget):
                     self._highlight_filters[-1][1].restore_settings(filter_settings)
         else:
             self._add_highlight_filter('message')
+
+        if instance_settings.contains('message_limit'):
+            self._datamodel._message_limit = int(instance_settings.value('message_limit'))
