@@ -63,11 +63,14 @@ class MessageDataModel(QAbstractTableModel):
         if index.row() >= 0 and index.row() < len(messagelist):
             if index.column() >= 0 and index.column() < messagelist[index.row()].count():
                 elements = self._messages.message_members()
-                if role == Qt.DisplayRole and elements[index.column()] == '_time':
-                    return messagelist[index.row()].time_as_string()
-                elif role == Qt.UserRole or role == Qt.DisplayRole:
-                    elements = self._messages.message_members()
-                    return getattr(messagelist[index.row()], elements[index.column()])
+                if role == Qt.DisplayRole or role == Qt.UserRole:
+                    if elements[index.column()] == '_time':
+                        data = messagelist[index.row()].time_as_string()
+                    else:
+                        data = getattr(messagelist[index.row()], elements[index.column()])
+                    if role == Qt.UserRole and elements[index.column()] != '_time':
+                        data += ' (%d)' % index.row()
+                    return data
                 elif role == Qt.DecorationRole and index.column() == 0:
                     msgseverity = messagelist[index.row()].get_data(1)
                     if msgseverity in (self.tr('Debug'), self.tr('Info')):
@@ -77,7 +80,12 @@ class MessageDataModel(QAbstractTableModel):
                     elif msgseverity in (self.tr('Error'), self.tr('Fatal')):
                         return self._error_icon
                 elif role == Qt.ToolTipRole:
-                    return self.tr('Right click for menu.')
+                    if elements[index.column()] == '_time':
+                        data = messagelist[index.row()].time_as_string()
+                    else:
+                        data = getattr(messagelist[index.row()], elements[index.column()])
+                    # <FONT> tag enables word wrap by forcing rich text
+                    return '<FONT>' + data + '<br><br>' + self.tr('Right click for menu.') + '</FONT>'
 
     def headerData(self, section, orientation, role=None):
         if role is None:
@@ -91,6 +99,16 @@ class MessageDataModel(QAbstractTableModel):
                 return '#%d' % (section + 1)
     # END Required implementations of QAbstractTableModel functions
 
+    def set_message_limit(self, new_limit):
+        self._message_limit = new_limit
+        self.manage_message_limit()
+
+    def manage_message_limit(self):
+        if len(self.get_message_list()) > self._message_limit:
+            self.beginRemoveRows(QModelIndex(), 0, len(self.get_message_list()) - self._message_limit - 1)
+            del self.get_message_list()[0:len(self.get_message_list()) - self._message_limit]
+            self.endRemoveRows()
+
     def insert_rows(self, msgs):
         """
         Wraps the insert_row function to minimize gui notification calls
@@ -101,11 +119,7 @@ class MessageDataModel(QAbstractTableModel):
         for msg in msgs:
             self.insert_row(msg, False)
         self.endInsertRows()
-
-        if len(self.get_message_list()) > self._message_limit:
-            self.beginRemoveRows(QModelIndex(), 0, len(self.get_message_list()) - self._message_limit - 1)
-            del self.get_message_list()[0:len(self.get_message_list()) - self._message_limit]
-            self.endRemoveRows()
+        self.manage_message_limit()
 
     def insert_row(self, msg, notify_model=True):
         if notify_model:
