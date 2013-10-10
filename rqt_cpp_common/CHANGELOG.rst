@@ -2,6 +2,9 @@
 Changelog for package rqt_cpp_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.1 (2013-10-09)
+------------------
+
 0.3.0 (2013-08-28)
 ------------------
 * fix missing dependency on libqt4-dev
