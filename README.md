@@ -1,3 +1,47 @@
+## rqt_common_plugins - 0.3.3-0
+
+User `dthomas@drudge` released the packages in the `rqt_common_plugins` repository by running `/usr/bin/bloom-release -r hydro -t hydro rqt_common_plugins` on `Thu, 09 Jan 2014 00:05:06 -0000`
+
+These packages were released:
+- `rqt_action`
+- `rqt_bag`
+- `rqt_bag_plugins`
+- `rqt_common_plugins`
+- `rqt_console`
+- `rqt_dep`
+- `rqt_graph`
+- `rqt_image_view`
+- `rqt_launch`
+- `rqt_logger_level`
+- `rqt_msg`
+- `rqt_plot`
+- `rqt_publisher`
+- `rqt_py_common`
+- `rqt_py_console`
+- `rqt_reconfigure`
+- `rqt_service_caller`
+- `rqt_shell`
+- `rqt_srv`
+- `rqt_top`
+- `rqt_topic`
+- `rqt_web`
+
+These packages were explicitly ignored:
+- `rqt_marble`
+
+Version of package(s) in repository `rqt_common_plugins`:
+- rosdistro version: `0.3.2-0`
+- old version: `0.3.2-0`
+- new version: `0.3.3-0`
+
+Versions of tools used:
+- bloom version: `0.4.4`
+- catkin_pkg version: `0.1.24`
+- rosdep version: `0.10.24`
+- rosdistro version: `0.2.20`
+- vcstools version: `0.1.33`
+
+
 ## rqt_common_plugins - 0.3.2-0
 
 User `dthomas@drudge` released the packages in the `rqt_common_plugins` repository by running `/usr/bin/bloom-release -t groovy -r groovy rqt_common_plugins` on `Mon, 14 Oct 2013 22:03:59 -0000`
