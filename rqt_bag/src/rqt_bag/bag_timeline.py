@@ -56,7 +56,7 @@ class BagTimeline(QGraphicsScene):
     """
     status_bar_changed_signal = Signal()
 
-    def __init__(self, context):
+    def __init__(self, context, publish_clock):
         """
         :param context: plugin context hook to enable adding rqt_bag plugin widgets as ROS_GUI snapin panes, ''PluginContext''
         """
@@ -80,6 +80,7 @@ class BagTimeline(QGraphicsScene):
         self._messages = {}  # topic -> (bag, msg_data)
         self._message_listener_threads = {}  # listener -> MessageListenerThread
         self._player = False
+        self._publish_clock = publish_clock
         self._recorder = None
         self.last_frame = None
         self.last_playhead = None
@@ -88,7 +89,7 @@ class BagTimeline(QGraphicsScene):
         self.stick_to_end = False  # should the playhead stick to the end?
         self._play_timer = QTimer()
         self._play_timer.timeout.connect(self.on_idle)
-        self._play_timer.start(3)
+        self._play_timer.setInterval(3)
 
         # Plugin popup management
         self._context = context
@@ -118,6 +119,7 @@ class BagTimeline(QGraphicsScene):
             return
         else:
             self.__closed = True
+        self._play_timer.stop()
         for topic in self._get_topics():
             self.stop_publishing(topic)
             self._message_loaders[topic].stop()
@@ -493,6 +495,8 @@ class BagTimeline(QGraphicsScene):
         if not self._player:
             try:
                 self._player = Player(self)
+                if self._publish_clock:
+                    self._player.start_clock_publishing()
             except Exception as ex:
                 qWarning('Error starting player; aborting publish: %s' % str(ex))
                 return False
@@ -749,9 +753,11 @@ class BagTimeline(QGraphicsScene):
 
     def navigate_play(self):
         self.play_speed = 1.0
+        self._play_timer.start()
 
     def navigate_stop(self):
         self.play_speed = 0.0
+        self._play_timer.stop()
 
     def navigate_rewind(self):
         if self._play_speed < 0.0:
