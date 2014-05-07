@@ -2,6 +2,11 @@
 Changelog for package rqt_plot
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.5 (2014-05-07)
+------------------
+* change minimum padding to enable viewing arbitrarily small values (`#223 <https://github.com/ros-visualization/rqt_common_plugins/pull/223>`_)
+* redraw plot only on new data to reduce cpu load, especially with matplot (`#219 <https://github.com/ros-visualization/rqt_common_plugins/issues/219>`_)
+
 0.3.4 (2014-01-28)
 ------------------
 
