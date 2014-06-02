@@ -1,3 +1,47 @@
+## rqt_common_plugins (indigo) - 0.3.6-0
+
+The packages in the `rqt_common_plugins` repository were released into the `indigo` distro by running `/usr/bin/bloom-release -r indigo -t indigo rqt_common_plugins` on `Mon, 02 Jun 2014 23:15:01 -0000`
+
+These packages were released:
+- `rqt_action`
+- `rqt_bag`
+- `rqt_bag_plugins`
+- `rqt_common_plugins`
+- `rqt_console`
+- `rqt_dep`
+- `rqt_graph`
+- `rqt_image_view`
+- `rqt_launch`
+- `rqt_logger_level`
+- `rqt_msg`
+- `rqt_plot`
+- `rqt_publisher`
+- `rqt_py_common`
+- `rqt_py_console`
+- `rqt_reconfigure`
+- `rqt_service_caller`
+- `rqt_shell`
+- `rqt_srv`
+- `rqt_top`
+- `rqt_topic`
+- `rqt_web`
+
+These packages were explicitly ignored:
+- `rqt_marble`
+
+Version of package(s) in repository `rqt_common_plugins`:
+- rosdistro version: `0.3.5-1`
+- old version: `0.3.5-1`
+- new version: `0.3.6-0`
+
+Versions of tools used:
+- bloom version: `0.5.9`
+- catkin_pkg version: `0.2.2`
+- rosdep version: `0.10.27`
+- rosdistro version: `0.3.5`
+- vcstools version: `0.1.35`
+
+
 ## rqt_common_plugins (indigo) - 0.3.5-1
 
 The packages in the `rqt_common_plugins` repository were released into the `indigo` distro by running `/usr/bin/bloom-release -r indigo -t indigo rqt_common_plugins` on `Wed, 21 May 2014 17:35:57 -0000`
