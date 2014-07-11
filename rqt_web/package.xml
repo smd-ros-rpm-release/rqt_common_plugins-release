@@ -1,6 +1,6 @@
 <package>
   <name>rqt_web</name>
-  <version>0.3.6</version>
+  <version>0.3.7</version>
   <description>rqt_web is a simple web content viewer for rqt. Users can show web content in Qt-based window by specifying its URL. </description>
   <maintainer email="ablasdel@gmail.com">Aaron Blasdel</maintainer>
   
@@ -21,6 +21,7 @@
   <run_depend>rqt_gui_py</run_depend>
 
   <export>
+    <architecture_independent/>
     <qt_gui plugin="${prefix}/plugin.xml"/>
   </export>
 </package>
