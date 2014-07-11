@@ -1,6 +1,6 @@
 <package>
   <name>rqt_graph</name>
-  <version>0.3.6</version>
+  <version>0.3.7</version>
   <description>rqt_graph provides a GUI plugin for visualizing the ROS
       computation graph.<br /> 
       
@@ -10,7 +10,6 @@
       the pkgs that depend. rqt_dep itself depends on rqt_graph too).
   </description>
   <maintainer email="ablasdel@willowgarage.com">Aaron Blasdel</maintainer>
-  <maintainer email="isao.saito@mavs.uta.edu">Isaac Saito</maintainer>
 
   <license>BSD</license>
 
@@ -35,6 +34,7 @@
   <run_depend>rqt_gui_py</run_depend>
 
   <export>
+    <architecture_independent/>
     <rqt_gui plugin="${prefix}/plugin.xml"/>
   </export>
 </package>
