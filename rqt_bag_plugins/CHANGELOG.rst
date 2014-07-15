@@ -2,6 +2,10 @@
 Changelog for package rqt_bag_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.8 (2014-07-15)
+------------------
+* fix missing installation of resource subfolder
+
 0.3.7 (2014-07-11)
 ------------------
 * add plotting plugin (`#239 <https://github.com/ros-visualization/rqt_common_plugins/issues/239>`_)
