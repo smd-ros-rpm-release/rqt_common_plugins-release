@@ -2,6 +2,20 @@
 Changelog for package rqt_py_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.8 (2014-07-15)
+------------------
+
+0.3.7 (2014-07-11)
+------------------
+* improve topic helpers to make more things plottable (`#246 <https://github.com/ros-visualization/rqt_common_plugins/issues/246>`_)
+* export architecture_independent flag in package.xml (`#254 <https://github.com/ros-visualization/rqt_common_plugins/issues/254>`_)
+
+0.3.6 (2014-06-02)
+------------------
+
+0.3.5 (2014-05-07)
+------------------
+
 0.3.4 (2014-01-28)
 ------------------
 
