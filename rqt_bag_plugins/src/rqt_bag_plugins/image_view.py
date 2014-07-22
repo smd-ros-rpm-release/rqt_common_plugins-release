@@ -30,8 +30,8 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-import Image
-import ImageQt
+from PIL import Image
+from PIL.ImageQt import ImageQt
 
 from rqt_bag import TopicMessageView
 import image_helper
@@ -45,8 +45,8 @@ class ImageView(TopicMessageView):
     """
     name = 'Image'
 
-    def __init__(self, timeline, parent):
-        super(ImageView, self).__init__(timeline, parent)
+    def __init__(self, timeline, parent, topic):
+        super(ImageView, self).__init__(timeline, parent, topic)
 
         self._image = None
         self._image_topic = None
@@ -90,7 +90,7 @@ class ImageView(TopicMessageView):
         if self._image:
             resized_image = self._image.resize((self._image_view.size().width() - 2, self._image_view.size().height() - 2), self.quality)
 
-            QtImage = ImageQt.ImageQt(resized_image)
+            QtImage = ImageQt(resized_image)
             pixmap = QPixmap.fromImage(QtImage)
             self._scene.clear()
             self._scene.addPixmap(pixmap)
