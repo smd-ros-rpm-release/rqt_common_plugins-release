@@ -1,6 +1,6 @@
 <package>
   <name>rqt_graph</name>
-  <version>0.3.4</version>
+  <version>0.3.8</version>
   <description>rqt_graph provides a GUI plugin for visualizing the ROS
       computation graph.<br /> 
       
@@ -10,7 +10,6 @@
       the pkgs that depend. rqt_dep itself depends on rqt_graph too).
   </description>
   <maintainer email="ablasdel@willowgarage.com">Aaron Blasdel</maintainer>
-  <maintainer email="isao.saito@mavs.uta.edu">Isaac Saito</maintainer>
 
   <license>BSD</license>
 
@@ -25,14 +24,17 @@
   <run_depend>python-rospkg</run_depend>
   <run_depend>qt_dotgraph</run_depend>
   <run_depend>rosgraph</run_depend>
+  <run_depend>rosgraph_msgs</run_depend>
   <run_depend>roslib</run_depend>
   <run_depend>rosnode</run_depend>
+  <run_depend>rospy</run_depend>
   <run_depend>rosservice</run_depend>
   <run_depend>rostopic</run_depend>
   <run_depend>rqt_gui</run_depend>
   <run_depend>rqt_gui_py</run_depend>
 
   <export>
+    <architecture_independent/>
     <rqt_gui plugin="${prefix}/plugin.xml"/>
   </export>
 </package>

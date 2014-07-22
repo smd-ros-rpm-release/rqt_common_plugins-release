@@ -1,9 +1,8 @@
 <package>
   <name>rqt_dep</name>
-  <version>0.3.4</version>
+  <version>0.3.8</version>
   <description>rqt_dep provides a GUI plugin for visualizing the ROS dependency graph.</description>
   <maintainer email="ablasdel@willowgarage.com">Aaron Blasdel</maintainer>
-  <maintainer email="isao.saito@mavs.uta.edu">Isaac Saito</maintainer>
 
   <license>BSD</license>
 
@@ -22,7 +21,10 @@
   <run_depend>rqt_graph</run_depend>
   <run_depend>rqt_gui_py</run_depend>
 
+  <test_depend>python-mock</test_depend>
+
   <export>
+    <architecture_independent/>
     <qt_gui plugin="${prefix}/plugin.xml"/>
   </export>
 </package>
