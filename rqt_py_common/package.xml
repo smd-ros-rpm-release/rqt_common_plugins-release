@@ -1,14 +1,16 @@
 <package>
   <name>rqt_py_common</name>
-  <version>0.3.4</version>
+  <version>0.3.8</version>
   <description>
     rqt_py_common provides common functionality for rqt plugins written in Python.
     Despite no plugin is provided, this package is part of the rqt_common_plugins
     repository to keep refactoring generic functionality from these common plugins
     into this package as easy as possible.
+
+    Functionality included in this package should cover generic ROS concepts and
+    should not introduce any special dependencies beside "ros_base".
   </description>
   <maintainer email="scholz@sim.tu-darmstadt.de">Dorian Scholz</maintainer>
-  <maintainer email="130s@2000.jukuin.keio.ac.jp">Isaac Saito</maintainer>
   <license>BSD</license>
 
   <url type="website">http://ros.org/wiki/rqt_py_common</url>
@@ -30,4 +32,8 @@
   rosaction gets moved to actionlib. -->
   <run_depend>actionlib</run_depend>
   <run_depend>rosbag</run_depend>
+
+  <export>
+    <architecture_independent/>
+  </export>
 </package>
