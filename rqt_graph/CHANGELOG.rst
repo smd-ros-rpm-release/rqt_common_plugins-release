@@ -2,6 +2,22 @@
 Changelog for package rqt_graph
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.8 (2014-07-15)
+------------------
+
+0.3.7 (2014-07-11)
+------------------
+* fix compatibility with Groovy, use TopicStatistics only if available (`#252 <https://github.com/ros-visualization/rqt_common_plugins/issues/252>`_)
+* export architecture_independent flag in package.xml (`#254 <https://github.com/ros-visualization/rqt_common_plugins/issues/254>`_)
+
+0.3.6 (2014-06-02)
+------------------
+
+0.3.5 (2014-05-07)
+------------------
+* add displaying of topic/connection statistics along edges (`#214 <https://github.com/ros-visualization/rqt_common_plugins/pull/214>`_)
+* using CATKIN_ENABLE_TESTING to optionally configure tests (`#220 <https://github.com/ros-visualization/rqt_common_plugins/pull/220>`_)
+
 0.3.4 (2014-01-28)
 ------------------
 
