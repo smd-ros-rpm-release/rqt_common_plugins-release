@@ -1,3 +1,49 @@
+## rqt_common_plugins (indigo) - 0.3.9-0
+
+The packages in the `rqt_common_plugins` repository were released into the `indigo` distro by running `/usr/bin/bloom-release -r indigo -t indigo rqt_common_plugins` on `Mon, 18 Aug 2014 19:31:03 -0000`
+
+These packages were released:
+- `rqt_action`
+- `rqt_bag`
+- `rqt_bag_plugins`
+- `rqt_common_plugins`
+- `rqt_console`
+- `rqt_dep`
+- `rqt_graph`
+- `rqt_image_view`
+- `rqt_launch`
+- `rqt_logger_level`
+- `rqt_msg`
+- `rqt_plot`
+- `rqt_publisher`
+- `rqt_py_common`
+- `rqt_py_console`
+- `rqt_reconfigure`
+- `rqt_service_caller`
+- `rqt_shell`
+- `rqt_srv`
+- `rqt_top`
+- `rqt_topic`
+- `rqt_web`
+
+These packages were explicitly ignored:
+- `rqt_marble`
+
+Version of package(s) in repository `rqt_common_plugins`:
+- upstream repository: https://github.com/ros-visualization/rqt_common_plugins.git
+- release repository: https://github.com/ros-gbp/rqt_common_plugins-release.git
+- rosdistro version: `0.3.8-0`
+- old version: `0.3.8-0`
+- new version: `0.3.9-0`
+
+Versions of tools used:
+- bloom version: `0.5.11`
+- catkin_pkg version: `0.2.4`
+- rosdep version: `0.10.30`
+- rosdistro version: `0.3.5`
+- vcstools version: `0.1.35`
+
+
 ## rqt_common_plugins (hydro) - 0.3.8-0
 
 The packages in the `rqt_common_plugins` repository were released into the `hydro` distro by running `/usr/bin/bloom-release -r hydro -t hydro rqt_common_plugins` on `Tue, 22 Jul 2014 21:45:34 -0000`
