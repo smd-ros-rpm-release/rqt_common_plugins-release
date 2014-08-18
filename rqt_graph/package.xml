@@ -1,6 +1,6 @@
 <package>
   <name>rqt_graph</name>
-  <version>0.3.8</version>
+  <version>0.3.9</version>
   <description>rqt_graph provides a GUI plugin for visualizing the ROS
       computation graph.<br /> 
       
@@ -9,7 +9,7 @@
       (use <a href = "http://www.ros.org/wiki/rqt_dep">rqt_dep</a> to find out
       the pkgs that depend. rqt_dep itself depends on rqt_graph too).
   </description>
-  <maintainer email="ablasdel@willowgarage.com">Aaron Blasdel</maintainer>
+  <maintainer email="ablasdel@gmail.com">Aaron Blasdel</maintainer>
 
   <license>BSD</license>
 
