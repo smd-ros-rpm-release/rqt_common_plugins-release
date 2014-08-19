@@ -29,43 +29,22 @@
 # LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-#
-# Author: Isaac Saito
 
-from rqt_gui_py.plugin import Plugin
-from rqt_py_common.plugin_container_widget import PluginContainerWidget
+from rqt_bag.plugins.plugin import Plugin
 
-from .param_widget import ParamWidget
+from .plot_view import PlotView
 
 
-class ParamPlugin(Plugin):
+class PlotPlugin(Plugin):
 
-    def __init__(self, context):
-        """
-        :type context: qt_gui.PluginContext
-        """
+    def __init__(self):
+        pass
 
-        super(ParamPlugin, self).__init__(context)
-        self.setObjectName('Dynamic Reconfigure')
+    def get_view_class(self):
+        return PlotView
 
-        self._plugin_widget = ParamWidget(context)
-        self._widget = PluginContainerWidget(self._plugin_widget, True, False)
-        if context.serial_number() > 1:
-            self._widget.setWindowTitle(self._widget.windowTitle() +
-                                        (' (%d)' % context.serial_number()))
-        context.add_widget(self._widget)
+    def get_renderer_class(self):
+        return None
 
-    def shutdown_plugin(self):
-        self._widget.shutdown()
-
-    def save_settings(self, plugin_settings, instance_settings):
-        self._widget.save_settings(plugin_settings, instance_settings)
-
-    def restore_settings(self, plugin_settings, instance_settings):
-        self._widget.restore_settings(plugin_settings, instance_settings)
-
-    @staticmethod
-    def add_arguments(parser):
-        group = parser.add_argument_group('Options for rqt_reconfigure plugin')
-        group.add_argument('node_name', nargs='*', default=[], help='Node(s) to open automatically')
-
+    def get_message_types(self):
+        return ['*']

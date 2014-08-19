@@ -2,6 +2,28 @@
 Changelog for package rqt_bag
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.9 (2014-08-18)
+------------------
+* fix visibility with dark Qt theme (`#263 <https://github.com/ros-visualization/rqt_common_plugins/issues/263>`_)
+
+0.3.8 (2014-07-15)
+------------------
+
+0.3.7 (2014-07-11)
+------------------
+* fix compatibility with Groovy, use queue_size for Python publishers only when available (`#243 <https://github.com/ros-visualization/rqt_common_plugins/issues/243>`_)
+* use thread for loading bag files, emit region changed signal used by plotting plugin (`#239 <https://github.com/ros-visualization/rqt_common_plugins/issues/239>`_)
+* export architecture_independent flag in package.xml (`#254 <https://github.com/ros-visualization/rqt_common_plugins/issues/254>`_)
+
+0.3.6 (2014-06-02)
+------------------
+* fix closing and reopening topic views
+* use queue_size for Python publishers
+
+0.3.5 (2014-05-07)
+------------------
+* fix raw view not showing fields named 'msg' (`#226 <https://github.com/ros-visualization/rqt_common_plugins/issues/226>`_)
+
 0.3.4 (2014-01-28)
 ------------------
 * add option to publish clock tim from bag (`#204 <https://github.com/ros-visualization/rqt_common_plugins/issues/204>`_)
