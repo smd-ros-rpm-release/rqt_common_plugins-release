@@ -1,9 +1,9 @@
 <package>
   <name>rqt_bag</name>
-  <version>0.3.4</version>
+  <version>0.3.9</version>
   <description>rqt_bag provides a GUI plugin for displaying and replaying ROS bag files.</description>
-  <maintainer email="ablasdel@willowgarage.com">Aaron Blasdel</maintainer>
-  <maintainer email="isao.saito@mavs.uta.edu">Isaac Saito</maintainer>
+  <maintainer email="ablasdel@gmail.com">Aaron Blasdel</maintainer>
+  <maintainer email="namniart@gmail.com">Austin Hendrix</maintainer>
 
   <license>BSD</license>
 
@@ -11,7 +11,7 @@
   <url type="repository">https://github.com/ros-visualization/rqt_common_plugins</url>
   <url type="bugtracker">https://github.com/ros-visualization/rqt_common_plugins/issues</url>
 
-  <author email="ablasdel@willowgarage.com">Aaron Blasdel</author>
+  <author>Aaron Blasdel</author>
   <author>Tim Field</author>
 
   <buildtool_depend>catkin</buildtool_depend>
@@ -25,6 +25,7 @@
   <run_depend>rqt_gui_py</run_depend>
 
   <export>
+    <architecture_independent/>
     <rqt_gui plugin="${prefix}/plugin.xml"/>
   </export>
 </package>
