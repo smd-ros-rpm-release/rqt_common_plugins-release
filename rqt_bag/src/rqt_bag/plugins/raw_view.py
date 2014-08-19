@@ -47,12 +47,12 @@ class RawView(TopicMessageView):
     Plugin to view a message in a treeview window
     The message is loaded into a custum treewidget
     """
-    def __init__(self, timeline, parent):
+    def __init__(self, timeline, parent, topic):
         """
         :param timeline: timeline data object, ''BagTimeline''
         :param parent: widget that will be added to the ros_gui context, ''QWidget''
         """
-        super(RawView, self).__init__(timeline, parent)
+        super(RawView, self).__init__(timeline, parent, topic)
         self.message_tree = MessageTree(parent)
         parent.layout().addWidget(self.message_tree)  # This will automatically resize the message_tree to the windowsize
 
@@ -100,7 +100,7 @@ class MessageTree(QTreeWidget):
             self.clear()
         if msg:
             # Populate the tree
-            self._add_msg_object(None, '', 'msg', msg, msg._type)
+            self._add_msg_object(None, '', '', msg, msg._type)
 
             if self._expanded_paths is None:
                 self._expanded_paths = set()
@@ -204,7 +204,7 @@ class MessageTree(QTreeWidget):
 
             label += ': ' + obj_repr
         item = QTreeWidgetItem([label])
-        if name == 'msg':
+        if name == '':
             pass
         elif path.find('.') == -1 and path.find('[') == -1:
             self.addTopLevelItem(item)
