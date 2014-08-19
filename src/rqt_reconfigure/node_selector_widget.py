@@ -146,6 +146,24 @@ class NodeSelectorWidget(QWidget):
                 # Deselect the index.
                 self.selectionModel.select(index, QItemSelectionModel.Deselect)
 
+    def node_selected(self, grn):
+        """
+        Select the index that corresponds to the given GRN.
+
+        :type grn: str
+        """
+
+        # Obtain the corresponding index.
+        qindex_tobe_selected = self._item_model.get_index_from_grn(grn)
+        rospy.logdebug('NodeSelWidt node_selected qindex={} data={}'.format(
+                                qindex_tobe_selected,
+                                qindex_tobe_selected.data(Qt.DisplayRole)))
+
+
+        # Select the index.
+        if qindex_tobe_selected:
+            self.selectionModel.select(qindex_tobe_selected, QItemSelectionModel.Select)
+
     def _selection_deselected(self, index_current, rosnode_name_selected):
         """
         Intended to be called from _selection_changed_slot.
@@ -198,7 +216,7 @@ class NodeSelectorWidget(QWidget):
             item_widget = item_child.get_dynreconf_widget()
         except ROSException as e:
             raise e
-        rospy.loginfo('item_selected={} child={} widget={}'.format(
+        rospy.logdebug('item_selected={} child={} widget={}'.format(
                        index_current, item_child, item_widget))
         self.sig_node_selected.emit(item_widget)
 
@@ -325,7 +343,7 @@ class NodeSelectorWidget(QWidget):
 
                 # NOT a debug print - please DO NOT remove. This print works
                 # as progress notification when loading takes long time.
-                rospy.loginfo(_str_progress)
+                rospy.logdebug(_str_progress)
                 i_node_curr += 1
 
     def _add_children_treenode(self, treenodeitem_toplevel,
