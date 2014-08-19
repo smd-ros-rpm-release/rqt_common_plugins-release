@@ -1,12 +1,11 @@
 <package>
   <name>rqt_logger_level</name>
-  <version>0.3.4</version>
+  <version>0.3.9</version>
   <description>rqt_logger_level provides a GUI plugin for configuring the logger level of ROS nodes.<br />
    <br />
   rqt_logger_level takes over `wx`-based tool [[rxloggerlevel]].
   </description>
-  <maintainer email="ablasdel@willowgarage.com">Aaron Blasdel</maintainer>
-  <maintainer email="isao.saito@mavs.uta.edu">Isaac Saito</maintainer>
+  <maintainer email="ablasdel@gmail.com">Aaron Blasdel</maintainer>
 
   <license>BSD</license>
 
@@ -14,7 +13,7 @@
   <url type="repository">https://github.com/ros-visualization/rqt_common_plugins</url>
   <url type="bugtracker">https://github.com/ros-visualization/rqt_common_plugins/issues</url>
 
-  <author email="ablasdel@willowgarage.com">Aaron Blasdel</author>
+  <author>Aaron Blasdel</author>
 
   <buildtool_depend>catkin</buildtool_depend>
 
@@ -26,6 +25,7 @@
   <run_depend>rqt_gui_py</run_depend>
 
   <export>
+    <architecture_independent/>
       <rqt_gui plugin="${prefix}/plugin.xml"/>
   </export>
 </package>
