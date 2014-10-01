@@ -2,6 +2,10 @@
 Changelog for package rqt_srv
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.10 (2014-10-01)
+-------------------
+* update plugin scripts to use full name to avoid future naming collisions
+
 0.3.9 (2014-08-18)
 ------------------
 
